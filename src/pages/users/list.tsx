@@ -4,34 +4,25 @@ import {
   Button,
   Checkbox,
   Label,
-  Modal,
   Table,
   TextInput,
 } from "flowbite-react";
 import type { FC } from "react";
-import React, { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import {
   HiChevronLeft,
   HiChevronRight,
-  HiCog,
   HiDocumentDownload,
-  HiDotsVertical,
-  HiExclamationCircle,
   HiHome,
-  HiOutlineExclamationCircle,
-  HiOutlinePencilAlt,
-  HiPlus,
-  HiTrash,
-
 } from "react-icons/hi";
 import {
   HiXCircle
 } from "react-icons/hi2"
 import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
 import axios from "axios";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useNavigate, useParams } from "react-router";
+import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import EditUserModal from "./edituser";
 import LockUserModal from "./LockUser";
@@ -39,6 +30,7 @@ import UnLockUserModal from "./UnLockUser";
 import ExcelJS from "exceljs";
 import { useSelector } from "react-redux";
 import AddUserModal from "./adduser";
+import { RootState } from "../../redux/store";
 const UserListPage: FC = function () {
   const [users, setUsers] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -48,7 +40,7 @@ const UserListPage: FC = function () {
 
   useEffect(() => {
     const fetchDatas = async () => {
-      const res = await axios.get('http://127.0.0.1:8000/api/users');
+      const res = await axios.get('https://api.boxvlu.click/api/users');
       setUsers(res.data);
     };
     fetchDatas();
@@ -206,13 +198,13 @@ const UserListPage: FC = function () {
             className="inline-flex flex-1 items-center justify-center rounded-lg bg-primary-700 py-2 px-3 text-center text-sm font-medium text-white hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
           >
             <HiChevronLeft className="mr-1 text-base" />
-            Previous
+            Lùi
           </button>
           <button
             onClick={handleNextPage}
             className="inline-flex flex-1 items-center justify-center rounded-lg bg-primary-700 py-2 px-3 text-center text-sm font-medium text-white hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
           >
-            Next
+            Tiến
             <HiChevronRight className="ml-1 text-base" />
           </button>
         </div>
@@ -221,8 +213,8 @@ const UserListPage: FC = function () {
     </NavbarSidebarLayout>
   );
 };
-const AllUsersTable: FC = function (props) {
-  const loginUser = useSelector((state) => state.auth.user)
+const AllUsersTable: FC<{ users: any[] }> = function (props) {
+  const loginUser = useSelector((state:RootState) => state.auth.user)
   const roleLoginUser = `${loginUser.role}`;
   const navigate = useNavigate();
   const { users } = props;

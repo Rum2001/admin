@@ -4,30 +4,22 @@ import {
   Button,
   Checkbox,
   Label,
-  Modal,
   Table,
   TextInput,
 } from "flowbite-react";
 import type { FC } from "react";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   HiChevronLeft,
   HiChevronRight,
-  HiCog,
   HiDocumentDownload,
-  HiDotsVertical,
-  HiExclamationCircle,
   HiHome,
-  HiOutlineExclamationCircle,
-  HiOutlinePencilAlt,
-  HiPlus,
-  HiTrash,
 } from "react-icons/hi";
 import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
 import axios from "axios";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useNavigate, useParams } from "react-router";
+import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import AddScalesModal from "./addscales";
 import EditScalesModal from "./editScales";
@@ -40,7 +32,7 @@ const ScalesListPage: FC = function () {
 
   useEffect(() => {
     const fetchDatas = async () => {
-      const res = await axios.get('http://127.0.0.1:8000/api/scales');
+      const res = await axios.get('https://api.boxvlu.click/api/scales');
       setScales(res.data);
     };
     fetchDatas();
@@ -160,13 +152,13 @@ const ScalesListPage: FC = function () {
             className="inline-flex flex-1 items-center justify-center rounded-lg bg-primary-700 py-2 px-3 text-center text-sm font-medium text-white hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
           >
             <HiChevronLeft className="mr-1 text-base" />
-            Previous
+            Lùi
           </button>
           <button
             onClick={handleNextPage}
             className="inline-flex flex-1 items-center justify-center rounded-lg bg-primary-700 py-2 px-3 text-center text-sm font-medium text-white hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
           >
-            Next
+            Tiếp
             <HiChevronRight className="ml-1 text-base" />
           </button>
         </div>
@@ -175,7 +167,7 @@ const ScalesListPage: FC = function () {
     </NavbarSidebarLayout>
   );
 };
-const AllScalesTable: FC = function (props) {
+const AllScalesTable: FC<{scales: any[]}> = function (props) {
   const { scales } = props;
   const [isOpen, setOpen] = useState(false);
   const navigate = useNavigate();

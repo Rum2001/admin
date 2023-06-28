@@ -38,7 +38,7 @@ const EditAttendeeModal: FC = function () {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://127.0.0.1:8000/api/attendees/${id}`);
+                const response = await axios.get(`https://api.boxvlu.click/api/attendees/${id}`);
                 setEmail(response.data.email);
                 setEventName(response.data.event_name);
                 setStatus(response.data.status);
@@ -53,7 +53,7 @@ const EditAttendeeModal: FC = function () {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.put(`http://127.0.0.1:8000/api/attendees/${id}`, {  email, status, verify_code, event_name });
+            const response = await axios.put(`https://api.boxvlu.click/api/attendees/${id}`, {  email, status, verify_code, event_name });
             console.log(response.data);
             toast.success('Sửa Thành Công')
             setOpen(false)

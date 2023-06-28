@@ -1,26 +1,20 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import {
-    Breadcrumb,
     Button,
-    Checkbox,
     Label,
     Modal,
-    Table,
     TextInput,
-    FileInput,
     Select,
 } from "flowbite-react";
 import type { FC } from "react";
-import React, { useState, useEffect } from "react";
+import  { useState } from "react";
 import {
     HiPlus,
 } from "react-icons/hi";
-import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
 import axios from "axios";
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useNavigate, useParams } from "react-router";
-import { Link } from "react-router-dom";
+import { useNavigate,} from "react-router";
 const AddAttendeeModal: FC = function () {
     const [isOpenAdd, setOpenAdd] = useState(false);
     const [email, setEmail] = useState('');
@@ -32,7 +26,7 @@ const AddAttendeeModal: FC = function () {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post('http://127.0.0.1:8000/api/attendees', { email,event_name,verify_code,checkin_at,status });
+            const response = await axios.post('https://api.boxvlu.click/api/attendees', { email,event_name,verify_code,checkin_at,status });
             console.log(response.data);
             toast.success("Thêm Thành Công")
             setOpenAdd(false)

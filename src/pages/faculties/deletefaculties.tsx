@@ -1,40 +1,24 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import {
-    Breadcrumb,
     Button,
-    Checkbox,
-    Label,
     Modal,
-    Table,
-    TextInput,
 } from "flowbite-react";
 import type { FC } from "react";
-import React, { useState, useEffect } from "react";
+import  { useState } from "react";
 import {
-    HiChevronLeft,
-    HiChevronRight,
-    HiCog,
-    HiDocumentDownload,
-    HiDotsVertical,
-    HiExclamationCircle,
-    HiHome,
     HiOutlineExclamationCircle,
-    HiOutlinePencilAlt,
-    HiPlus,
     HiTrash,
 } from "react-icons/hi";
-import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
 import axios from "axios";
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate, useParams } from "react-router";
-import { Link } from "react-router-dom";
 const DeleteFacultiesModal: FC = function () {
     const [isOpen, setOpen] = useState(false);
     const {id} = useParams();
     const navigate = useNavigate();
     const deleteCategories = () => {
-        axios.delete(`http://127.0.0.1:8000/api/faculties/${id}`)
+        axios.delete(`https://api.boxvlu.click/api/faculties/${id}`)
           .then(response => {
             console.log(response.data);
             navigate('/faculties/list');
@@ -59,7 +43,7 @@ const DeleteFacultiesModal: FC = function () {
             <Modal onClose={() => setOpen(false)} show={isOpen} size="md">
                 <form>
                 <Modal.Header className="px-6 pt-6 pb-0">
-                    <span className="sr-only">Delete Faculties</span>
+                    <span className="sr-only">Xóa khoa ban</span>
                 </Modal.Header>
                 <Modal.Body className="px-6 pt-0 pb-6">
                     <div className="flex flex-col items-center gap-y-6 text-center">

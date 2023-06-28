@@ -4,30 +4,22 @@ import {
   Button,
   Checkbox,
   Label,
-  Modal,
   Table,
   TextInput,
 } from "flowbite-react";
 import type { FC } from "react";
-import React, { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import {
   HiChevronLeft,
   HiChevronRight,
-  HiCog,
   HiDocumentDownload,
-  HiDotsVertical,
-  HiExclamationCircle,
   HiHome,
-  HiOutlineExclamationCircle,
-  HiOutlinePencilAlt,
-  HiPlus,
-  HiTrash,
 } from "react-icons/hi";
 import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
 import axios from "axios";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useNavigate, useParams } from "react-router";
+import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import AddLocationModal from "./addlocation";
 import EditLocationModal from "./editlocation";
@@ -39,7 +31,7 @@ const LocationListPage: FC = function () {
   const [locationsPerPage, setLocationsPerPage] = useState(4);
   useEffect(() => {
     const fetchDatas = async () => {
-      const res = await axios.get('http://127.0.0.1:8000/api/locations');
+      const res = await axios.get('https://api.boxvlu.click/api/locations');
       setLocations(res.data);
     };
     fetchDatas();
@@ -140,7 +132,7 @@ const LocationListPage: FC = function () {
              disabled={currentPage === 1}
             className="inline-flex cursor-pointer justify-center rounded p-1 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
           >
-            <span className="sr-only">Previous page</span>
+            <span className="sr-only">Lùi lại</span>
             <HiChevronLeft className="text-2xl" />
 
           </button>
@@ -148,7 +140,7 @@ const LocationListPage: FC = function () {
             onClick={handleNextPage}
             className="mr-2 inline-flex cursor-pointer justify-center rounded p-1 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
           >
-            <span className="sr-only">Next page</span>
+            <span className="sr-only">Tiến tới</span>
             <HiChevronRight className="text-2xl" />
           </button>
         </div>
@@ -159,13 +151,13 @@ const LocationListPage: FC = function () {
             className="inline-flex flex-1 items-center justify-center rounded-lg bg-primary-700 py-2 px-3 text-center text-sm font-medium text-white hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
           >
             <HiChevronLeft className="mr-1 text-base" />
-            Previous
+            Lùi
           </button>
           <button
           onClick={handleNextPage}
             className="inline-flex flex-1 items-center justify-center rounded-lg bg-primary-700 py-2 px-3 text-center text-sm font-medium text-white hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
           >
-            Next
+            Tiếp
             <HiChevronRight className="ml-1 text-base" />
           </button>
         </div>
@@ -174,7 +166,7 @@ const LocationListPage: FC = function () {
     </NavbarSidebarLayout>
   );
 };
-const AllLocationTable: FC = function (props) {
+const AllLocationTable: FC<{locations: any[]}> = function (props) {
   const { locations } = props;
   const [isOpen, setOpen] = useState(false);
   const navigate = useNavigate();

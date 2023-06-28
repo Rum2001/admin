@@ -4,23 +4,13 @@ import {
   Button,
   Checkbox,
   Label,
-  Modal,
   Table,
-  Textarea,
   TextInput,
 } from "flowbite-react";
 import type { FC } from "react";
 import { useState, useEffect } from "react";
-import { FaPlus } from "react-icons/fa";
 import {
-  HiCog,
-  HiDotsVertical,
-  HiExclamationCircle,
   HiHome,
-  HiOutlineExclamationCircle,
-  HiPencilAlt,
-  HiTrash,
-  HiUpload,
   HiDocumentDownload,
   HiChevronLeft,
   HiChevronRight
@@ -30,13 +20,13 @@ import {
   HiEye
 } from "react-icons/hi2"
 import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
-import { Pagination } from "../users/list";
 import axios from "axios";
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import DeleteEventModal from "./deleteeventmodal";
 import { ToastContainer } from "react-toastify";
 import ExcelJS from "exceljs";
 import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 const Events: FC = function () {
   const [events, setEvents] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -46,7 +36,7 @@ const Events: FC = function () {
 
   useEffect(() => {
     const fetchDatas = async () => {
-      const res = await axios.get('http://127.0.0.1:8000/api/events');
+      const res = await axios.get('https://api.boxvlu.click/api/events');
       setEvents(res.data);
     };
     fetchDatas();
@@ -252,11 +242,11 @@ const SearchForProducts: FC = function () {
     </form>
   );
 };
-const AllEventsTable: FC = function (props) {
+const AllEventsTable: FC<{ events: any[] }> = function (props) {
   const { events } = props;
   const navigate = useNavigate();
   const [isOpen, setOpen] = useState(false);
-  const loginUser = useSelector((state) => state.auth.user)
+  const loginUser = useSelector((state: RootState) => state.auth.user)
   const roleLoginUser = `${loginUser.role}`;
   return (
     <Table className="min-w-full divide-y divide-gray-200 dark:divide-gray-600">

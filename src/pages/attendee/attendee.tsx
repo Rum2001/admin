@@ -4,43 +4,43 @@ import {
   Button,
   Checkbox,
   Label,
-  Modal,
   Table,
   TextInput,
 } from "flowbite-react";
 import type { FC } from "react";
-import React, { useState, useEffect } from "react";
+import{ useState, useEffect } from "react";
 import {
   HiChevronLeft,
   HiChevronRight,
-  HiCog,
   HiDocumentDownload,
-  HiDotsVertical,
-  HiExclamationCircle,
   HiHome,
-  HiOutlineExclamationCircle,
-  HiOutlinePencilAlt,
-  HiPlus,
-  HiTrash,
 } from "react-icons/hi";
 import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
 import axios from "axios";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useNavigate, useParams } from "react-router";
+import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import AddAttendeeModal from "./addattendee";
 import EditAttendeeModal from "./editattendee";
 import DeleteAttendeeModal from "./deleteattendee";
 import ExcelJS from "exceljs";
+interface AllattendeesTableProps {
+  attendees: { 
+    id: number;
+    email: string;
+    event_name: string;
+    status: string;
+    checkin_at: string;
+  }[];
+}
 const AttendeeListPage: FC = function () {
   const [attendees, setAttendees] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
   const attendeesPerPage = 7;
   useEffect(() => {
     const fetchDatas = async () => {
-      const res = await axios.get('http://127.0.0.1:8000/api/attendees');
+      const res = await axios.get('https://api.boxvlu.click/api/attendees');
       setAttendees(res.data);
     };
     fetchDatas();
@@ -49,7 +49,6 @@ const AttendeeListPage: FC = function () {
       clearInterval(interval);
     };
   }, []);
-
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
   };
@@ -61,7 +60,6 @@ const AttendeeListPage: FC = function () {
 
   // calculate total pages
   const totalPages = Math.ceil(filteredattendees.length / attendeesPerPage);
-
   const exportToExcel = () => {
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet("attendee List");
@@ -74,7 +72,6 @@ const AttendeeListPage: FC = function () {
       { header: "Created At", key: "created_at", width: 25 },
       { header: "Updated At", key: "updated_at", width: 25 },
     ];
-
     attendees.forEach((attendee) => {
       worksheet.addRow({
         email: attendee.email,
@@ -161,7 +158,7 @@ const AttendeeListPage: FC = function () {
     </NavbarSidebarLayout>
   );
 };
-const AllattendeesTable: FC = function (props) {
+const AllattendeesTable: FC<AllattendeesTableProps> = function (props) {
   const navigate = useNavigate();
   const { attendees } = props;
   return (
@@ -269,5 +266,4 @@ export const Pagination: FC = function () {
     </div>
   );
 };
-
 export default AttendeeListPage;

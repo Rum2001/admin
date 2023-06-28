@@ -1,40 +1,26 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import {
-    Breadcrumb,
     Button,
-    Checkbox,
-    Label,
+
     Modal,
-    Table,
-    TextInput,
+
 } from "flowbite-react";
 import type { FC } from "react";
-import React, { useState, useEffect } from "react";
+import  { useState } from "react";
 import {
-    HiChevronLeft,
-    HiChevronRight,
-    HiCog,
-    HiDocumentDownload,
-    HiDotsVertical,
-    HiExclamationCircle,
-    HiHome,
     HiOutlineExclamationCircle,
-    HiOutlinePencilAlt,
-    HiPlus,
     HiTrash,
 } from "react-icons/hi";
-import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
 import axios from "axios";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate, useParams } from "react-router";
-import { Link } from "react-router-dom";
 const DeleteAttendeeModal: FC = function () {
     const [isOpen, setOpen] = useState(false);
     const {id} = useParams();
     const navigate = useNavigate();
     const deleteattendee = () => {
-        axios.delete(`http://127.0.0.1:8000/api/attendees/${id}`)
+        axios.delete(`https://api.boxvlu.click/api/attendees/${id}`)
           .then(response => {
             console.log(response.data);
             navigate('/attendees/list');

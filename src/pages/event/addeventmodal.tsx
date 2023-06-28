@@ -1,36 +1,28 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import {
-    Breadcrumb,
     Button,
-    Checkbox,
     Label,
     Modal,
-    Table,
     TextInput,
     FileInput,
     Select,
     Textarea,
 } from "flowbite-react";
 import type { FC } from "react";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
     HiPlus,
 } from "react-icons/hi";
-import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
 import axios from "axios";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useNavigate, useParams } from "react-router";
-import { Link } from "react-router-dom";
-import { DatePicker, Stack } from 'rsuite';
+import { useNavigate} from "react-router";
 const AddEventModal: FC = function () {
     const [isOpenAdd, setOpenAdd] = useState(false);
     const [title, setTitle] = useState('');
     const [categories, setCategory] = useState('');
     const [description, setDescription] = useState('');
     const [location, setLocation] = useState('');
-    const [images, setImage] = useState();
-    const [masv, setMaSV] = useState('');
     const [faculty, setFaculty]=useState('');
     const [scale,setScale] =useState('');
     const [quantity_ticket,setQuality]=useState('');
@@ -43,23 +35,19 @@ const AddEventModal: FC = function () {
     const [locationAll,setLocationAll]=useState([]);
     const [scaleAll,setSacleAll]=useState([]);
     const navigate = useNavigate();
-    const handlePhotoChange = (event) => {
-        setImage(event.target.files[0]);
-        console.log(event.target.files);
-    };
     console.log(title, categories, description, location, faculty, scale,quantity_ticket,start_time,end_time,category_id, status )
 
     useEffect(() => {
         const fetchData = async () => {
-          const responseCategory = await axios.get('http://127.0.0.1:8000/api/categories');
+          const responseCategory = await axios.get('https://api.boxvlu.click/api/categories');
           setCategoryAll(responseCategory.data);
-          const responseFaculty = await axios.get('http://127.0.0.1:8000/api/faculties');
+          const responseFaculty = await axios.get('https://api.boxvlu.click/api/faculties');
           setFacultyAll(responseFaculty.data);
     
-          const responseLocation = await axios.get('http://127.0.0.1:8000/api/locations');
+          const responseLocation = await axios.get('https://api.boxvlu.click/api/locations');
           setLocationAll(responseLocation.data);
 
-          const responseScale = await axios.get('http://127.0.0.1:8000/api/scales');
+          const responseScale = await axios.get('https://api.boxvlu.click/api/scales');
           setSacleAll(responseScale.data);
         };
     
@@ -68,7 +56,7 @@ const AddEventModal: FC = function () {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post('http://127.0.0.1:8000/api/events', { title, categories, description, location, faculty, scale,quantity_ticket,start_time,end_time,category_id, status });
+            const response = await axios.post('https://api.boxvlu.click/api/events', { title, categories, description, location, faculty, scale,quantity_ticket,start_time,end_time,category_id, status });
             console.log(response.data);
             toast.success("Thêm Thành Công")
             setOpenAdd(false)
@@ -280,7 +268,6 @@ const AddEventModal: FC = function () {
                                     id="file"
                                     accept="image/*"
                                     helperText="Chọn hình ảnh "
-                                    onChange={handlePhotoChange}
                                 />
                             </div>
                         </div>

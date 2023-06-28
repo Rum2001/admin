@@ -1,42 +1,25 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import {
-    Breadcrumb,
     Button,
-    Checkbox,
-    Label,
     Modal,
-    Table,
-    TextInput,
 } from "flowbite-react";
 import type { FC } from "react";
-import React, { useState, useEffect } from "react";
+import  { useState } from "react";
 import {
-    HiChevronLeft,
-    HiChevronRight,
-    HiCog,
-    HiDocumentDownload,
-    HiDotsVertical,
-    HiExclamationCircle,
-    HiHome,
     HiOutlineExclamationCircle,
-    HiOutlinePencilAlt,
-    HiPlus,
-    HiTrash,
 } from "react-icons/hi";
 import { HiLockOpen } from "react-icons/hi2";
-import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
 import axios from "axios";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate, useParams } from "react-router";
-import { Link } from "react-router-dom";
 const UnLockUserModal: FC = function () {
     const [isOpen, setOpen] = useState(false);
     const {id} = useParams();
     const status = 'Đang hoạt động'
     const navigate = useNavigate();
     const deleteUser = () => {
-        axios.put(`http://127.0.0.1:8000/api/status/${id}`,{status})
+        axios.put(`https://api.boxvlu.click/api/status/${id}`,{status})
           .then(response => {
             console.log(response.data);
             navigate('/users/list');

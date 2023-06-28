@@ -4,36 +4,40 @@ import React, { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch, useSelector } from "react-redux";
-import LoginBackground from '../../../public/images/authentication/footer.jpg'
-import Logo from '../../../public/images/authentication/logo.png'
-import { loginUser } from '../../redux/authActions'
+import { ThunkDispatch } from "redux-thunk";
+import { AnyAction } from "redux";
+import { loginUser } from "../../redux/authActions";
+import { RootState } from "../../redux/store";
 import { useForm } from 'react-hook-form';
 import { useNavigate } from "react-router";
+import LoginBackground from '../../../public/images/authentication/footer.jpg'
+import Logo from '../../../public/images/authentication/logo.png'
+
 const SignInPage: FC = function () {
   const { handleSubmit, register } = useForm();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<ThunkDispatch<RootState, null, AnyAction>>();
   const navigate = useNavigate();
-  const user = useSelector((state)=>state.auth.user)
+  const user = useSelector((state: RootState) => state.auth.user);
+
   const handleFormSubmit = async (data) => {
     try {
       const { email, password } = data;
       await dispatch(loginUser(email, password));
       navigate("/home");
-      toast.success('Thanh Cong')
+      toast.success('Thành công');
     } catch (error) {
       console.error(error);
-      const errorMessage = error.response?.data?.message
+      const errorMessage = error.response?.data?.message;
       toast.error(errorMessage);
     }
   };
-  
 
   return (
-    <div className="flex flex-col items-center justify-center px-6 lg:h-screen lg:gap-y-12 bg-center bg-cover" style={{ backgroundImage: `url(${LoginBackground})` }} >
+    <div className="flex flex-col items-center justify-center px-6 lg:h-screen lg:gap-y-12 bg-center bg-cover" style={{ backgroundImage: `url(${LoginBackground})` }}>
       <div className="max-w-sm">
         <Card>
           <img src={Logo} alt="" />
-          <h5 className="text-[#FF0000] text-center text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+          <h5 className="text-[#FF0000] text-center text-2xl font-bold tracking-tight dark:text-white">
             ĐĂNG NHẬP HỆ THỐNG QUẢN LÝ SỰ KIỆN
           </h5>
           <form className="flex flex-col gap-4" onSubmit={handleSubmit(handleFormSubmit)}>

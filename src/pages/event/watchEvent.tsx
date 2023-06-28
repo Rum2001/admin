@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Button, Modal } from "flowbite-react";
 import axios from 'axios'
 import { Link } from "react-router-dom";
@@ -19,7 +19,7 @@ const EventsPage = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://127.0.0.1:8000/api/events/${id}`);
+                const response = await axios.get(`https://api.boxvlu.click/api/events/${id}`);
                 setPath(response.data.path);
                 setEmail(response.data.email);
                 setTitle(response.data.title);
@@ -36,7 +36,7 @@ const EventsPage = () => {
     }, [id]);
     const handleApproveConfirmation = async () => {
         try {
-            const response = await axios.put(`http://127.0.0.1:8000/api/events/${id}/status`, {
+            const response = await axios.put(`https://api.boxvlu.click/api/events/${id}/status`, {
                 status: 'Đã duyệt',
             });
             setOpenAdd(false);
@@ -49,7 +49,7 @@ const EventsPage = () => {
     };
     const handleCancelConfirmation = async () => {
         try {
-            const response = await axios.put(`http://127.0.0.1:8000/api/events/${id}/status`, {
+            const response = await axios.put(`https://api.boxvlu.click/api/events/${id}/status`, {
                 status: 'Không duyệt',
             }
             );
@@ -77,7 +77,7 @@ const EventsPage = () => {
                         onClose={() => setOpenAdd(false)} show={isOpenAdd}
                     >
                         <Modal.Header>
-                            Xác nhận phê duyệt
+                            Phê duyệt sự kiện
                         </Modal.Header>
                         <Modal.Body>
                             <div className="space-y-6">
@@ -92,7 +92,7 @@ const EventsPage = () => {
                             <Button
                                 className=" bg-green-500 hover:bg-green-600"
                                 onClick={handleApproveConfirmation} >
-                                Đồng ý
+                                Lưu
 
                             </Button>
                             <Button
@@ -106,13 +106,13 @@ const EventsPage = () => {
                         </Modal.Footer>
                     </Modal>
                     <Button className="w-[24rem] bg-red-500 hover:bg-red-600" onClick={() => setOpenCancel(true)}>
-                        Hủy
+                        Không duyệt
                     </Button>
                     <Modal
                         onClose={() => setOpenCancel(false)} show={isOpenCancel}
                     >
                         <Modal.Header>
-                            Xác nhận phê duyệt
+                            Phê duyệt sự kiện
                         </Modal.Header>
                         <Modal.Body>
                             <div className="space-y-6">
@@ -127,7 +127,7 @@ const EventsPage = () => {
                             <Button
                                 className=" bg-red-500 hover:bg-red-600"
                                 onClick={handleCancelConfirmation} >
-                                Không đồng ý
+                                Lưu
 
                             </Button>
                             <Button
@@ -141,7 +141,7 @@ const EventsPage = () => {
                         </Modal.Footer>
                     </Modal>
                 </div>
-                <div className="block mb-20" data-aos="fade-up" data-aos-delay={300}><img className="object-cover h-min w-full" src={`http://127.0.0.1:8000/api/images/${path}`} alt="freetailwindui.co" /></div>
+                <div className="block mb-20" data-aos="fade-up" data-aos-delay={300}><img className="object-cover h-min w-full" src={`https://api.boxvlu.click/api/images/${path}`} alt="freetailwindui.co" /></div>
                 <div className="md:flex mb-10 justify-between">
                     <div className="md:w-5/12 mb-5 md:mb-0">
                         <h2 className="font-bold text-xl lg:text-3xl text-gray-700 leading-tight" data-aos="fade-up" data-aos-delay={0}>{title}</h2>

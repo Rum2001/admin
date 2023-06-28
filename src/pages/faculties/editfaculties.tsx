@@ -1,25 +1,19 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import {
-    Breadcrumb,
     Button,
-    Checkbox,
     Label,
     Modal,
-    Table,
     TextInput,
-    FileInput,
 } from "flowbite-react";
 import type { FC } from "react";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
     HiPencilAlt,
 } from "react-icons/hi";
-import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
 import axios from "axios";
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate, useParams } from "react-router";
-import { Link } from "react-router-dom";
 const EditFacultiesModal: FC = function () {
     const [isOpen, setOpen] = useState(false);
     const [name, setName] = useState('');
@@ -28,7 +22,7 @@ const EditFacultiesModal: FC = function () {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://127.0.0.1:8000/api/faculties/${id}`);
+                const response = await axios.get(`https://api.boxvlu.click/api/faculties/${id}`);
                 setName(response.data.name);
             } catch (error) {
                 console.error(error);
@@ -39,7 +33,7 @@ const EditFacultiesModal: FC = function () {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.put(`http://127.0.0.1:8000/api/faculties/${id}`, { name});
+            const response = await axios.put(`https://api.boxvlu.click/api/faculties/${id}`, { name});
             console.log(response.data);
             toast.success('Sửa Thành Công')
             setOpen(false)

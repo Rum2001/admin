@@ -1,15 +1,15 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import type { FC } from "react";
-import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Button, DarkThemeToggle, Navbar, Dropdown, Avatar } from "flowbite-react";
 import Logo from '../../public/images/authentication/logo.png'
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../redux/authSlide";
+import { RootState } from '../redux/store';
 const ExampleNavbar: FC = function () {
   const navigate = useNavigate();
-  const user = useSelector((state)=>state.auth.user)
+  const user = useSelector((state: RootState) => state.auth.user);
   const dispatch = useDispatch();
-
   const handleLogout = () => {
     dispatch(logout());
     navigate('/');

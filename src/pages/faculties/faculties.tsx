@@ -4,30 +4,25 @@ import {
   Button,
   Checkbox,
   Label,
-  Modal,
   Table,
   TextInput,
 } from "flowbite-react";
 import type { FC } from "react";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   HiChevronLeft,
   HiChevronRight,
-  HiCog,
+
   HiDocumentDownload,
-  HiDotsVertical,
-  HiExclamationCircle,
+
   HiHome,
-  HiOutlineExclamationCircle,
-  HiOutlinePencilAlt,
-  HiPlus,
-  HiTrash,
+
 } from "react-icons/hi";
 import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
 import axios from "axios";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useNavigate, useParams } from "react-router";
+import { useNavigate} from "react-router";
 import { Link } from "react-router-dom";
 import AddFacultiesModal from "./addlfaculties";
 import EditFacultiesModal from "./editfaculties";
@@ -40,7 +35,7 @@ const FacultiesListPage: FC = function () {
 
   useEffect(() => {
     const fetchDatas = async () => {
-      const res = await axios.get('http://127.0.0.1:8000/api/faculties');
+      const res = await axios.get('https://api.boxvlu.click/api/faculties');
       setfacultys(res.data);
     };
     fetchDatas();
@@ -132,7 +127,7 @@ const FacultiesListPage: FC = function () {
         <div className="overflow-x-auto">
           <div className="inline-block min-w-full align-middle">
             <div className="overflow-hidden shadow">
-              <AllFacultiesTable  facultys={currentfacultys}/>
+              <AllFacultiesTable facultys={currentfacultys}/>
             </div>
           </div>
         </div>
@@ -161,13 +156,13 @@ const FacultiesListPage: FC = function () {
             className="inline-flex flex-1 items-center justify-center rounded-lg bg-primary-700 py-2 px-3 text-center text-sm font-medium text-white hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
           >
             <HiChevronLeft className="mr-1 text-base" />
-            Previous
+            Lùi
           </button>
           <button
             onClick={handleNextPage}
             className="inline-flex flex-1 items-center justify-center rounded-lg bg-primary-700 py-2 px-3 text-center text-sm font-medium text-white hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
           >
-            Next
+            Tiếp
             <HiChevronRight className="ml-1 text-base" />
           </button>
         </div>
@@ -176,7 +171,7 @@ const FacultiesListPage: FC = function () {
     </NavbarSidebarLayout>
   );
 };
-const AllFacultiesTable: FC = function (props) {
+const AllFacultiesTable: FC<{facultys: any[]}> = function (props) {
   const {facultys}=props;
   const [isOpen, setOpen] = useState(false);
   const navigate = useNavigate();

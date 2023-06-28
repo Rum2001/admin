@@ -1,4 +1,4 @@
-import { loginSuccess, loginFailure } from '../redux/authSlide';
+import { loginSuccess, loginFailure } from './authSlide';
 import { login } from '../api/api';
 
 export const loginUser = (email, password) => async (dispatch) => {
