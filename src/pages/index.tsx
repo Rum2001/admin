@@ -3,38 +3,59 @@ import { Badge, Dropdown, Table, useTheme } from "flowbite-react";
 import type { FC } from "react";
 import Chart from "react-apexcharts";
 import NavbarSidebarLayout from "../layouts/navbar-sidebar";
-
+import axios from "axios";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 const DashboardPage: FC = function () {
   return (
     <NavbarSidebarLayout>
       <div className="px-4 pt-6">
         <SalesThisWeek />
-        <div className="my-6">
-          <LatestTransactions />
-        </div>
-        <LatestCustomers />
-        <div className="my-6">
-          <AcquisitionOverview />
-        </div>
       </div>
     </NavbarSidebarLayout>
   );
 };
 
 const SalesThisWeek: FC = function () {
+  const [attendeeCount, setAttendeeCount] = useState([]);
+  const months = Object.keys(attendeeCount);
+  console.log(months)
+
+  // Tách value thành một mảng
+  const counts = Object.values(attendeeCount).map((value) => parseInt(value));
+  console.log(counts)
+  useEffect(() => {
+    const fetchAttendeeCount = async () => {
+      try {
+        const response = await axios.get('https://api.boxvlu.click/api/attendeescount');
+        setAttendeeCount(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchAttendeeCount();
+  }, []);
+
+  const [sum, setSum] = useState(0);
+  useEffect(() => {
+    const totalSum = counts.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+    setSum(totalSum);
+  }, [counts]);
+
   return (
     <div className="rounded-lg bg-white p-4 shadow dark:bg-gray-800 sm:p-6 xl:p-8">
       <div className="mb-4 flex items-center justify-between">
         <div className="shrink-0">
           <span className="text-2xl font-bold leading-none text-gray-900 dark:text-white sm:text-3xl">
-            $45,385
+            {sum} người tham dự
           </span>
           <h3 className="text-base font-normal text-gray-600 dark:text-gray-400">
-            Sales this week
+            Thống kê người tham dự 5 tháng gần nhất
           </h3>
         </div>
         <div className="flex flex-1 items-center justify-end text-base font-bold text-green-600 dark:text-green-400">
-          12.5%
+          12.5% 
           <svg
             className="h-5 w-5"
             fill="currentColor"
@@ -51,13 +72,13 @@ const SalesThisWeek: FC = function () {
       </div>
       <SalesChart />
       <div className="mt-5 flex items-center justify-between border-t border-gray-200 pt-3 dark:border-gray-700 sm:pt-6">
-        <Datepicker />
+        <div></div>
         <div className="shrink-0">
-          <a
-            href="#"
+          <Link
+            to="/attendees/list"
             className="inline-flex items-center rounded-lg p-2 text-xs font-medium uppercase text-primary-700 hover:bg-gray-100 dark:text-primary-500 dark:hover:bg-gray-700 sm:text-sm"
           >
-            Sales Report
+            Xem chi tiết
             <svg
               className="ml-1 h-4 w-4 sm:h-5 sm:w-5"
               fill="none"
@@ -72,7 +93,7 @@ const SalesThisWeek: FC = function () {
                 d="M9 5l7 7-7 7"
               />
             </svg>
-          </a>
+          </Link>
         </div>
       </div>
     </div>
@@ -80,6 +101,27 @@ const SalesThisWeek: FC = function () {
 };
 
 const SalesChart: FC = function () {
+  const [attendeeCount, setAttendeeCount] = useState([]);
+  const months = Object.keys(attendeeCount);
+  console.log(months)
+
+  // Tách value thành một mảng
+  const counts = Object.values(attendeeCount).map((value) => parseInt(value));
+  console.log(counts)
+  useEffect(() => {
+    const fetchAttendeeCount = async () => {
+      try {
+        const response = await axios.get('http://127.0.0.1:8000/api/attendeescount');
+        setAttendeeCount(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchAttendeeCount();
+  }, []);
+
+  
   const { mode } = useTheme();
   const isDarkTheme = mode === "dark";
 
@@ -135,15 +177,7 @@ const SalesChart: FC = function () {
       },
     },
     xaxis: {
-      categories: [
-        "01 Feb",
-        "02 Feb",
-        "03 Feb",
-        "04 Feb",
-        "05 Feb",
-        "06 Feb",
-        "07 Feb",
-      ],
+      categories: months,
       labels: {
         style: {
           colors: [labelColor],
@@ -175,7 +209,7 @@ const SalesChart: FC = function () {
           fontWeight: 500,
         },
         formatter: function (value) {
-          return "$" + value;
+          return value + " "+ "người";
         },
       },
     },
@@ -206,7 +240,7 @@ const SalesChart: FC = function () {
   const series = [
     {
       name: "Revenue",
-      data: [6356, 6218, 6156, 6526, 6356, 6256, 6056],
+      data: counts,
       color: "#1A56DB",
     },
   ];
